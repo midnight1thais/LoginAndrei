@@ -5,15 +5,15 @@ import { api } from "../../services/api";
 
 export const Register = () => {
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [name, setName] = useState("");
+  const [senha, setPassword] = useState("");
+  const [nome, setName] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = {
-      name,
+      nome,
       email,
-      password,
+      senha,
     };
     await api.post("/user/create", data);
     alert("Usuário criado com sucesso!");
@@ -26,9 +26,9 @@ export const Register = () => {
 
         <div className="wrap-input">
           <input
-            className={name !== "" ? "has-val input" : "input"}
+            className={nome !== "" ? "has-val input" : "input"}
             type="text"
-            value={name}
+            value={nome}
             onChange={(e) => setName(e.target.value)}
           />
           <span className="focus-input" data-placeholder="Nome"></span>
@@ -46,9 +46,9 @@ export const Register = () => {
 
         <div className="wrap-input">
           <input
-            className={password !== "" ? "has-val input" : "input"}
-            type="password"
-            value={password}
+            className={senha !== "" ? "has-val input" : "input"}
+            type="senha"
+            value={senha}
             onChange={(e) => setPassword(e.target.value)}
           />
           <span className="focus-input" data-placeholder="Password"></span>
