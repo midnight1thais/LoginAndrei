@@ -15,7 +15,7 @@ export const Register = () => {
       email,
       senha,
     };
-    await api.post("/user/create", data);
+    await api.post(`${api}/user/create`, data);
     alert("Usuário criado com sucesso!");
   };
 
