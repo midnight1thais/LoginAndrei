@@ -11,6 +11,7 @@ export const Login = () => {
   const [senha, setSenha] = useState("");
   const { signIn, signed } = useContext(AuthContext);
 
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = {
@@ -18,7 +19,7 @@ export const Login = () => {
       senha:senha,
     };
     try{
-    const response = await axios.post(`${api}login`,data)
+    const response = await axios.post(`${api}auth/login`,data)
       alert("Usuário criado com sucesso!");
       console.log(response.data)
     }
@@ -26,6 +27,7 @@ export const Login = () => {
       console.log(error.response)
     }
   };
+
   // console.log(signed);
   if (!signed) {
     return (
