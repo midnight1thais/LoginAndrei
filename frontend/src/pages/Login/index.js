@@ -3,21 +3,30 @@ import { useState } from "react";
 import { LayoutComponents } from "../../components/LayoutComponents";
 import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
+import { api } from "../../services/api";
+import axios from "axios";
 
 export const Login = () => {
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [senha, setSenha] = useState("");
   const { signIn, signed } = useContext(AuthContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = {
-      email,
-      password,
+      email:email,
+      senha:senha,
     };
-    await signIn(data);
+    try{
+    const response = await axios.post(`${api}login`,data)
+      alert("Usuário criado com sucesso!");
+      console.log(response.data)
+    }
+    catch(error){
+      console.log(error.response)
+    }
   };
-  console.log(signed);
+  // console.log(signed);
   if (!signed) {
     return (
       <LayoutComponents>
@@ -36,12 +45,12 @@ export const Login = () => {
 
           <div className="wrap-input">
             <input
-              className={password !== "" ? "has-val input" : "input"}
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              className={senha !== "" ? "has-val input" : "input"}
+              type="senha"
+              value={senha}
+              onChange={(e) => setSenha(e.target.value)}
             />
-            <span className="focus-input" data-placeholder="Password"></span>
+            <span className="focus-input" data-placeholder="senha"></span>
           </div>
 
           <div className="container-login-form-btn">

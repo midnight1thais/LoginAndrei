@@ -10,7 +10,7 @@ const jwt = require('jsonwebtoken');
 // Authentication
 async function login(request, response) {
     // Preparar o comando de execução no banco
-    const query = "SELECT * FROM users WHERE `email` = ?";
+    const query = "SELECT * FROM usuarios WHERE `email` = ?";
     
     // Recuperar credenciais informadas
     const params = Array(
@@ -21,10 +21,10 @@ async function login(request, response) {
     connection.query(query, params, (err, results) => {
         try {            
             if (results.length > 0) {                
-                bcrypt.compare(request.body.password, results[0].password, (err, result) => {
+                bcrypt.compare(request.body.senha, results[0].senha, (err, result) => {
                     if (err) {                        
                         return response.status(401).send({
-                          msg: 'Email or password is incorrect!'
+                          msg: 'Email or senha is incorrect!'
                         });
                     } else if(result) {
                         const id = results[0].id_user;
