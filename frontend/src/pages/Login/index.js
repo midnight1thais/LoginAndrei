@@ -10,18 +10,30 @@ export const Login = () => {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const { signIn, signed } = useContext(AuthContext);
-
+  const [user, setUser] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = {
-      email:email,
-      senha:senha,
+      email,
+      senha
     };
     try{
-    const response = await axios.post(`${api}auth/login`,data)
-      alert("Usuário criado com sucesso!");
-      console.log(response.data)
+    const response = await api.post('auth/login', data)
+
+      alert("Usuário conectado com sucesso!");
+
+      setUser(response.data);
+
+      api.defaults.headers.common[
+          "Authorization"
+      ] = `Bearer ${response.data.data[0].token}`;
+        
+      localStorage.setItem("@Auth:user", JSON.stringify(response.data.data[0].nome));
+      localStorage.setItem("@Auth:token", response.data.data[0].token);
+      
+      // redirect
+
     }
     catch(error){
       console.log(error.response)
