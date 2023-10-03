@@ -1,4 +1,4 @@
-import { Link, Navigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { LayoutComponents } from "../../components/LayoutComponents";
 import { useContext } from "react";
@@ -12,6 +12,16 @@ export const Login = () => {
   const { signIn, signed } = useContext(AuthContext);
   const [user, setUser] = useState(null);
 
+  const navigate = useNavigate();
+
+  const goToHome = () => {
+     
+    navigate("/home");
+
+    window.location.reload();
+      
+    };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = {
@@ -23,22 +33,25 @@ export const Login = () => {
 
       alert("Usuário conectado com sucesso!");
 
+
       setUser(response.data);
+      
 
       api.defaults.headers.common[
           "Authorization"
-      ] = `Bearer ${response.data.data[0].token}`;
+      ] = `Bearer ${response.data.data[0].token}`
         
       localStorage.setItem("@Auth:user", JSON.stringify(response.data.data[0].nome));
       localStorage.setItem("@Auth:token", response.data.data[0].token);
       
-      // redirect
-
-    }
-    catch(error){
-      console.log(error.response)
+      goToHome()
+      
+    } catch (error) {
+      alert('Algo de errado não está certo')
+      console.log(error.response);
     }
   };
+
 
   // console.log(signed);
   if (!signed) {
@@ -64,11 +77,11 @@ export const Login = () => {
               value={senha}
               onChange={(e) => setSenha(e.target.value)}
             />
-            <span className="focus-input" data-placeholder="senha"></span>
+            <span className="focus-input" data-placeholder="Senha"></span>
           </div>
 
           <div className="container-login-form-btn">
-            <button type="submit" className="login-form-btn">
+            <button type="submit" className="login-form-btn" onClick={handleSubmit}>
               Login
             </button>
           </div>
@@ -83,6 +96,7 @@ export const Login = () => {
       </LayoutComponents>
     );
   } else {
+    console.log('entrei no signed')
     return <Navigate to="/home" />;
   }
 };
